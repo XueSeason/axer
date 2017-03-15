@@ -4,7 +4,7 @@ const path = require('path')
 const Request = require('../app').request
 const file = require('../app').file
 
-describe('test file module and request module', async done => {
+describe('test file module and request module', done => {
   const dir = path.resolve(__dirname, './locals')
   it('mkdir should complete without error', () => {
     return file.mkdir(dir)
@@ -36,6 +36,18 @@ describe('test file module and request module', async done => {
   it('request get google home', () => {
     return request.get('https://www.google.com').then(res => {
       assert.equal(200, res.statusCode)
+    })
+  })
+
+  it('request post facebook login', () => {
+    const email = 'email'
+    const pass = 'pass'
+    request.get('https://www.facebook.com').then(() => {
+      return request.post(
+        'https://www.facebook.com/login.php?login_attempt=1',
+        { email, pass }).then(res => {
+          assert.equal(200, res.statusCode)
+        })
     })
   })
 })
