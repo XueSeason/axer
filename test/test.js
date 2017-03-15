@@ -1,8 +1,8 @@
 const assert = require('assert')
 const fs = require('fs')
 const path = require('path')
-const Request = require('../request')
-const file = require('../file')
+const Request = require('../app').request
+const file = require('../app').file
 
 describe('test file module and request module', async done => {
   const dir = path.resolve(__dirname, './locals')

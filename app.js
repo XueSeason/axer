@@ -1,5 +1,5 @@
 const request = require('./request')
-const file = rquire('./file')
+const file = require('./file')
 
 module.exports = {
   request,
