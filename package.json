@@ -1,0 +1,29 @@
+{
+  "name": "axer",
+  "version": "0.0.1",
+  "description": "The spider's sharp ax.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/XueSeason/axer.git"
+  },
+  "keywords": [
+    "spider",
+    "ax"
+  ],
+  "author": "XueSeason",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/XueSeason/axer/issues"
+  },
+  "homepage": "https://github.com/XueSeason/axer#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "log4js": "^1.1.1",
+    "request": "^2.81.0",
+    "tough-cookie-filestore": "0.0.1"
+  }
+}
