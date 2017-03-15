@@ -1,6 +1,9 @@
 # Axer
 
-![](https://travis-ci.org/XueSeason/axer.svg?branch=master)
+[![npm](https://img.shields.io/npm/v/axer.svg?style=flat-square)](https://www.npmjs.com/package/axer)
+[![Build Status](https://travis-ci.org/XueSeason/axer.svg?branch=master)](https://travis-ci.org/XueSeason/axer)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/XueSeason/axer/master/LICENSE)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/XueSeason/axer.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
 
 The spider's sharp ax.:octocat:
 
