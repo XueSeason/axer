@@ -54,6 +54,9 @@ async function read(fd, stats, lines) {
     if (lineCount === lines) {
       break
     }
+    if (data.length >= stats.size) {
+      break
+    }
     data = String.fromCodePoint(char) + data
   }
   return data
