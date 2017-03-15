@@ -1,5 +1,7 @@
 # Axer
 
+![](https://travis-ci.org/XueSeason/axer.svg?branch=master)
+
 The spider's sharp ax.:octocat:
 
 ## Installation
