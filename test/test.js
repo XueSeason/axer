@@ -32,7 +32,7 @@ describe('test file module and request module', done => {
     })
   })
 
-  const request = new Request(cookieJarPath)
+  const request = new Request()
   it('request get google home', () => {
     return request.get('https://www.google.com').then(res => {
       assert.equal(200, res.statusCode)
