@@ -73,7 +73,7 @@ demo()
 
 ## Author
 
-See [XueSeason](https://github.com/xueseaon)
+See [XueSeason](https://github.com/xueseason)
 
 ## License
 
