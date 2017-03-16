@@ -39,19 +39,7 @@ function encodeURIForm(form) {
   return keys.map(key => `${key}=${encodeURIComponent(form[key])}`).join('&')
 }
 
-async function followRedirect(response, request) {
-  if (response.statusCode === 302) {
-    const url = response.headers.location
-    logger.info('Auto Follow:', url)
-    const res = await promisify(request, url)
-    return await followRedirect(res, request)
-  } else {
-    return response
-  }
-}
-
 exports.promisify = promisify
 exports.parseForm = parseForm
 exports.decodeURIForm = decodeURIForm
 exports.encodeURIForm = encodeURIForm
-exports.followRedirect = followRedirect

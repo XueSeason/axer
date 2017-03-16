@@ -6,7 +6,7 @@ const Promise = require('bluebird')
 
 const handler = require('./handler')
 
-const { followRedirect, promisify, parseForm, decodeURIForm, encodeURIForm } = handler
+const { promisify, parseForm, decodeURIForm, encodeURIForm } = handler
 
 /**
  * Request Constructor
@@ -30,6 +30,9 @@ function Request(cookiePath, config) {
   }
 
   this.request = request.defaults(Object.assign(appendConfig, defaultConfig))
+  // avoid redirct cycle
+  this.maxRedirects = 10
+  this.redirects = 0
 }
 
 /**
@@ -47,7 +50,7 @@ Request.prototype.get = async function(url, params) {
 
   logger.info('GET', _url)
   const res = await promisify(this.request, _url)
-  const response = await followRedirect(res, this.request)
+  const response = await this.followRedirect(res)
   return response
 }
 
@@ -69,7 +72,7 @@ Request.prototype.post = async function(url, form) {
   logger.info('POST ', url)
   logger.info('Body:', form)
   const res = await promisify(this.request.post, { url, form })
-  const response = await followRedirect(res, this.request)
+  const response = await this.followRedirect(res)
   return response
 }
 
@@ -101,6 +104,23 @@ Request.prototype.download = function(url, filePath) {
       })
       .pipe(fs.createWriteStream(filePath))
   })
+}
+
+Request.prototype.followRedirect = async function (response) {
+  if (response.statusCode >= 300 && response.statusCode < 400) {
+    if (this.redirects >= this.maxRedirects) {
+      throw new Error('Too many redircts, the default max redircts is:' + this.maxRedirects)
+    } else {
+      this.redirects++
+      const url = response.headers.location
+      logger.info('Auto Follow:', url)
+      const res = await promisify(this.request, url)
+      return await this.followRedirect(res)
+    }
+  } else {
+    this.redirects = 0
+    return response
+  }
 }
 
 module.exports = Request

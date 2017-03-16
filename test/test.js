@@ -50,4 +50,10 @@ describe('test file module and request module', done => {
         })
     })
   })
+
+  it('request redirect via get my blog home', () => {
+    request.get('http://xueseason.github.io').then(res => {
+      assert.equal(200, res.statusCode)
+    })
+  })
 })
