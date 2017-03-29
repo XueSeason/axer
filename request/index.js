@@ -123,4 +123,11 @@ Request.prototype.followRedirect = async function (response) {
   }
 }
 
+Request.prototype.upload = function(url, formData) {
+  logger.info('POST FormData', url)
+  logger.info('Body:', formData)
+  const response = promisify(this.request.post, { url, formData })
+  return response
+}
+
 module.exports = Request
