@@ -36,7 +36,13 @@ function decodeURIForm(form) {
 
 function encodeURIForm(form) {
   const keys = Object.keys(form)
-  return keys.map(key => `${key}=${encodeURIComponent(form[key])}`).join('&')
+  return keys.map(key => {
+    if (form[key]) {
+      return `${key}=${encodeURIComponent(form[key])}`
+    } else {
+      return key
+    }
+  }).join('&')
 }
 
 exports.promisify = promisify
