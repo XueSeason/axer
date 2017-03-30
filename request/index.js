@@ -102,6 +102,19 @@ Request.prototype.download = function(url, filePath) {
   })
 }
 
+/**
+ * Upload file to server.
+ * @param {string} url download url.
+ * @param {string} formData the request formData.
+ * @return {promise} return promise object for conveniently use aync/await.
+ */
+Request.prototype.upload = function(url, formData) {
+  logger.info('POST FormData', url)
+  logger.info('Body:', formData)
+  const response = promisify(this.request.post, { url, formData })
+  return response
+}
+
 Request.prototype.followRedirect = async function (response) {
   if (response.statusCode >= 300 && response.statusCode < 400) {
     if (this.redirects >= this.maxRedirects) {
@@ -117,13 +130,6 @@ Request.prototype.followRedirect = async function (response) {
     this.redirects = 0
     return response
   }
-}
-
-Request.prototype.upload = function(url, formData) {
-  logger.info('POST FormData', url)
-  logger.info('Body:', formData)
-  const response = promisify(this.request.post, { url, formData })
-  return response
 }
 
 module.exports = Request
