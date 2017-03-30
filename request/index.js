@@ -84,10 +84,6 @@ Request.prototype.post = async function(url, form) {
  */
 Request.prototype.download = function(url, filePath) {
   return new Promise((resolve, reject) => {
-    if (fs.existsSync(filePath)) {
-      resolve(url)
-      return
-    }
     this.request.get(url)
       .on('response', res => {
         logger.info(`Status: ${res.statusCode}`)
