@@ -115,6 +115,32 @@ Request.prototype.upload = function(url, formData) {
   return response
 }
 
+/**
+ * Creae a binary stream pipe.
+ * @param {string} url download url.
+ * @return {promise} return promise object for conveniently use aync/await.
+ */
+Request.prototype.pipe = function (url) {
+  return new Promise((resolve, reject) => {
+    const res = this.request.get(url)
+      .on('response', res => {
+        logger.info(`Status: ${res.statusCode}`)
+        logger.info(`Content-Type: ${res.headers['content-type']}`)
+        logger.info(`Content-Length: ${res.headers['content-length']}`)
+      })
+      .on('end', () => {
+        logger.info(`Download success`)
+        resolve(url)
+      })
+      .on('error', err => {
+        logger.error(`Download failed: ${err}`)
+        reject(err)
+      })
+
+    resolve(res)
+  })
+}
+
 Request.prototype.followRedirect = async function (response) {
   if (response.statusCode >= 300 && response.statusCode < 400) {
     if (this.redirects >= this.maxRedirects) {
