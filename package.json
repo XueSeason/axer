@@ -1,6 +1,6 @@
 {
   "name": "axer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "The spider's sharp ax.",
   "main": "app.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "bluebird": "^3.5.0",
     "log4js": "^1.1.1",
     "request": "^2.81.0",
-    "tough-cookie-filestore": "0.0.1"
+    "tough-cookie-filestore-bugfixed": "0.0.2"
   },
   "devDependencies": {
     "mocha": "^3.2.0"
