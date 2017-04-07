@@ -1,6 +1,6 @@
 {
   "name": "axer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The spider's sharp ax.",
   "main": "app.js",
   "scripts": {
