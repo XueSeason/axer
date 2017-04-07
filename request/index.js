@@ -1,6 +1,6 @@
 const fs = require('fs')
 const request = require('request')
-const FileCookieStore = require('tough-cookie-filestore')
+const FileCookieStore = require('tough-cookie-filestore-bugfixed')
 const logger = require('log4js').getLogger()
 const Promise = require('bluebird')
 
