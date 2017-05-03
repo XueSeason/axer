@@ -29,7 +29,7 @@ function Request(cookiePath, config) {
     appendConfig.jar = jar
   }
 
-  this.request = request.defaults(Object.assign(appendConfig, defaultConfig))
+  this.request = request.defaults(Object.assign(defaultConfig, appendConfig))
   // avoid redirct cycle
   this.maxRedirects = 10
   this.redirects = 0
