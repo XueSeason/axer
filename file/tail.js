@@ -1,8 +1,7 @@
 const fs = require('fs')
-const path = require('path')
 const Promise = require('bluebird')
 
-function stat(filePath) {
+function stat (filePath) {
   return new Promise((resolve, reject) => {
     fs.stat(filePath, (err, stats) => {
       if (err) {
@@ -13,7 +12,7 @@ function stat(filePath) {
   })
 }
 
-function open(filePath) {
+function open (filePath) {
   return new Promise((resolve, reject) => {
     fs.open(filePath, 'r', (err, fd) => {
       if (err) {
@@ -24,7 +23,7 @@ function open(filePath) {
   })
 }
 
-function readPreviousChar(fd, stats, currentCharacterCount) {
+function readPreviousChar (fd, stats, currentCharacterCount) {
   return new Promise((resolve, reject) => {
     fs.read(
       fd,
@@ -42,11 +41,11 @@ function readPreviousChar(fd, stats, currentCharacterCount) {
   })
 }
 
-async function read(fd, stats, lines) {
+async function read (fd, stats, lines) {
   let data = ''
   let i = 0
   let lineCount = 0
-  while(true) {
+  while (true) {
     const char = await readPreviousChar(fd, stats, i++)
     if (char === 0x0a) { // 0x0a === '\n'
       lineCount++

@@ -1,12 +1,10 @@
-const fs = require('fs')
 const path = require('path')
 
-async function demo() {
+;(async function demo () {
   const cookieJarPath = path.resolve(__dirname, './locals', 'cookieJar.json')
   const Request = require('../request')
-  // const request = new Request(cookieJarPath)
 
-  // You can set proxy and request google in China 
+  // You can set proxy and request google in China
   const request = new Request(cookieJarPath, {
     proxy: 'http://****:**'
   })
@@ -18,8 +16,12 @@ async function demo() {
   await request.get('https://www.facebook.com')
   await request.post('https://www.facebook.com/login.php?login_attempt=1', { email, pass })
 
+  // or post json
+  await request.post('http://localhost:4000/search/result', { type: 'json' }, {
+    keyword: 'hello',
+    country: 'cn'
+  })
+
   const youtubeMusicUrl = 'https://www.youtube.com/audiolibrary_download?f=m&vid=2837bb75829ae65a'
   await request.download(youtubeMusicUrl, path.resolve(__dirname, './locals', 'mymusic.mp3'))
-}
-
-demo()
+})()

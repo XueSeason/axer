@@ -1,8 +1,7 @@
 const fs = require('fs')
-const path = require('path')
 const Promise = require('bluebird')
 
-module.exports = function touch(filePath) {
+module.exports = function touch (filePath) {
   return new Promise((resolve, reject) => {
     fs.open(filePath, 'a+', (err, fd) => {
       if (err) {

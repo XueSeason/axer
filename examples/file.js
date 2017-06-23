@@ -1,7 +1,7 @@
 const file = require('../file')
 const path = require('path')
 
-async function demo() {
+async function demo () {
   const dir = path.resolve(__dirname, './locals', 'file')
   await file.mkdir(dir)
 

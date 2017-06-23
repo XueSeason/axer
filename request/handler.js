@@ -1,7 +1,6 @@
 const Promise = require('bluebird')
-const logger = require('log4js').getLogger()
 
-function promisify(func, params) {
+function promisify (func, params) {
   return new Promise((resolve, reject) => {
     func(params, (err, response) => {
       if (err) {
@@ -13,7 +12,7 @@ function promisify(func, params) {
   })
 }
 
-function parseForm(str) {
+function parseForm (str) {
   const form = {}
   const arr = str.split('&')
   arr.forEach(qs => {
@@ -25,7 +24,7 @@ function parseForm(str) {
   return form
 }
 
-function decodeURIForm(form) {
+function decodeURIForm (form) {
   const copyForm = {}
   const keys = Object.keys(form)
   keys.forEach(key => {
@@ -34,7 +33,7 @@ function decodeURIForm(form) {
   return copyForm
 }
 
-function encodeURIForm(form) {
+function encodeURIForm (form) {
   const keys = Object.keys(form)
   return keys.map(key => {
     if (form[key] !== null) {

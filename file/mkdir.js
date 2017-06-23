@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const Promise = require('bluebird')
 
-function access(dir) {
+function access (dir) {
   return new Promise((resolve, reject) => {
     fs.access(dir, err => {
       if (err) {
@@ -14,7 +14,7 @@ function access(dir) {
   })
 }
 
-function mkdir(dir) {
+function mkdir (dir) {
   return new Promise((resolve, reject) => {
     fs.mkdir(dir, err => {
       if (err) {

@@ -13,13 +13,13 @@ const { promisify, parseForm, decodeURIForm, encodeURIForm } = handler
  * @param {string} cookiePath cookieJar file path. If undefined, the request won't take any cookie.
  * @param {object} config request config.
  */
-function Request(cookiePath, config) {
+function Request (cookiePath, config) {
   const defaultConfig = {
     headers: {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
     },
     gzip: true,
-    timeout: 20000,
+    timeout: 20000
   }
 
   const appendConfig = config || {}
@@ -41,7 +41,7 @@ function Request(cookiePath, config) {
  * @param {object} params QueryString dictionary object. Axer will automaticlly encode all params value for request.
  * @return {Object} Axer will combine request object and response object and return to developer.
  */
-Request.prototype.get = async function(url, params) {
+Request.prototype.get = async function (url, params) {
   let _url = url
   if (typeof params === 'object') {
     const qs = encodeURIForm(params)
@@ -57,23 +57,36 @@ Request.prototype.get = async function(url, params) {
 /**
  * Request server with POST method.
  * @param {string} url Request URL.
- * @param {object} form post form. Axer will convert this object to x-www-form-urlencoded formart string.
+ * @param {object} form post data.
  * @return {Object} Axer will combine request object and response object and return to developer.
  */
-Request.prototype.post = async function(url, form) {
-  if (typeof form === 'object') {
-    form = decodeURIForm(form)
-  }
- 
-  if (typeof form === 'string') {
-    form = parseForm(form)
+Request.prototype.post = async function (url, option, form) {
+  if (form === undefined) {
+    form = option
+    option = { type: 'form' } // x-www-form-urlencoded
   }
 
-  logger.info('POST ', url)
-  logger.info('Body:', form)
-  const res = await promisify(this.request.post, { url, form })
-  const response = await this.followRedirect(res)
-  return response
+  if (option.type === 'form') {
+    if (typeof form === 'object') {
+      form = decodeURIForm(form)
+    }
+
+    if (typeof form === 'string') {
+      form = parseForm(form)
+    }
+
+    logger.info('POST ', url)
+    logger.info('Body:', form)
+    const res = await promisify(this.request.post, { url, form })
+    const response = await this.followRedirect(res)
+    return response
+  } else if (option.type === 'json') {
+    const res = await promisify(this.request, { uri: url, method: 'POST', json: form })
+    const response = await this.followRedirect(res)
+    return response
+  } else {
+    console.error('未支持的格式')
+  }
 }
 
 /**
@@ -82,7 +95,7 @@ Request.prototype.post = async function(url, form) {
  * @param {string} filePath the file's save path.
  * @return {promise} return promise object for conveniently use aync/await.
  */
-Request.prototype.download = function(url, filePath) {
+Request.prototype.download = function (url, filePath) {
   return new Promise((resolve, reject) => {
     this.request.get(url)
       .on('response', res => {
@@ -108,7 +121,7 @@ Request.prototype.download = function(url, filePath) {
  * @param {string} formData the request formData.
  * @return {promise} return promise object for conveniently use aync/await.
  */
-Request.prototype.upload = function(url, formData) {
+Request.prototype.upload = function (url, formData) {
   logger.info('POST FormData', url)
   logger.info('Body:', formData)
   const response = promisify(this.request.post, { url, formData })
@@ -150,7 +163,8 @@ Request.prototype.followRedirect = async function (response) {
       const url = response.headers.location
       logger.info('Auto Follow:', url)
       const res = await promisify(this.request, url)
-      return await this.followRedirect(res)
+      const result = await this.followRedirect(res)
+      return result
     }
   } else {
     this.redirects = 0
