@@ -18,6 +18,7 @@ function Request (cookiePath, config) {
     headers: {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
     },
+    followRedirect: false,
     gzip: true,
     timeout: 20000
   }
@@ -41,17 +42,25 @@ function Request (cookiePath, config) {
  * @param {object} params QueryString dictionary object. Axer will automaticlly encode all params value for request.
  * @return {Object} Axer will combine request object and response object and return to developer.
  */
-Request.prototype.get = async function (url, params) {
+Request.prototype.get = async function (url, params, follow = true) {
   let _url = url
+
   if (typeof params === 'object') {
     const qs = encodeURIForm(params)
     _url = `${_url}?${qs}`
+  } else if (typeof params === 'boolean') {
+    follow = params
   }
 
   logger.info('GET', _url)
   const res = await promisify(this.request, _url)
-  const response = await this.followRedirect(res)
-  return response
+
+  if (follow) {
+    const response = await this.followRedirect(res)
+    return response
+  } else {
+    return res
+  }
 }
 
 /**
@@ -81,6 +90,8 @@ Request.prototype.post = async function (url, option, form) {
     const response = await this.followRedirect(res)
     return response
   } else if (option.type === 'json') {
+    logger.info('POST ', url)
+    logger.info('Body:', form)
     const res = await promisify(this.request, { uri: url, method: 'POST', json: form })
     const response = await this.followRedirect(res)
     return response
